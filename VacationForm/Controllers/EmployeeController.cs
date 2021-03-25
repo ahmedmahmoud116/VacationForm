@@ -91,6 +91,13 @@ namespace VacationForm.Controllers
             return CreatedAtAction(nameof(GetEmployee), new { id = employee.ID }, employee); //reference GetEmployee action to create 
         }
 
+        private Boolean isEmailUnique(String email)
+        {
+            if (_context.Employees.Any(e => (string.Compare(e.Email, email, false) == 0)))
+                return false;
+            return true;
+        }
+
         // DELETE: api/Employees/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Employee>> DeleteEmployee(int id)
