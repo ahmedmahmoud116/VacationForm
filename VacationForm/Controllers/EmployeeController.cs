@@ -12,11 +12,11 @@ namespace VacationForm.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeesController : ControllerBase
+    public class EmployeeController : ControllerBase
     {
         private readonly VacationContext _context;
 
-        public EmployeesController(VacationContext context)
+        public EmployeeController(VacationContext context)
         {
             _context = context;
         }

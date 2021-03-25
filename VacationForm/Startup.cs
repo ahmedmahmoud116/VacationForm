@@ -30,7 +30,8 @@ namespace VacationForm
         public void ConfigureServices(IServiceCollection services)
         {
             string mySqlConnectionStr = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContextPool<VacationContext>(options => options.UseMySql(mySqlConnectionStr)); //, ServerVersion.AutoDetect(mySqlConnectionStr)
+            services.AddDbContextPool<VacationContext>(options => options.UseMySql(mySqlConnectionStr));
+
             services.AddControllers();
         }
 
