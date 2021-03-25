@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace VacationForm.Models
 {
-    public class Request
+    public class EmployeeRequest
     {
         public int ID { get; set; }
         public int EmployeeID { get; set; }

@@ -13,9 +13,9 @@ namespace VacationForm.Models
         public string Gender { get; set; }
         public DateTime BirthDate { get; set; }
         //EF create hashset by default and requests have list of each emplyee entities in request table
-        public ICollection<Request> Requests { get; set; }
+        public ICollection<EmployeeRequest> EmployeeRequest { get; set; }
         //EF create hashset by default and requests have list of each emplyee entities in request table
-        public ICollection<EmployeeBalance> Balances { get; set; }
+        public ICollection<EmployeeBalance> EmployeeBalance { get; set; }
 
     }
 }

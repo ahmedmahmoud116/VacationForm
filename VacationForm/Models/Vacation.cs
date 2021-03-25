@@ -11,9 +11,9 @@ namespace VacationForm.Models
         public string Type { get; set; }
         public int Balance { get; set; } //default balance of each vacation type
         //EF create hashset by default and requests have list of each vacation entities in request table
-        public ICollection<Request> Requests { get; set; }
+        public ICollection<EmployeeRequest> EmployeeRequest { get; set; }
         //EF create hashset by default and balances have list of each vacation entities in balance table
-        public ICollection<EmployeeBalance> Balances { get; set; }
+        public ICollection<EmployeeBalance> EmployeeBalance { get; set; }
 
     }
 }
