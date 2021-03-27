@@ -27,17 +27,47 @@ namespace VacationForm.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnName("Email")
+                        .HasColumnType("varchar(254)");
 
                     b.Property<string>("FullName")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Gender")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("ID");
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 4572,
+                            BirthDate = new DateTime(1998, 5, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "ahmed@gmail.com",
+                            FullName = "Ahmed Mahmouud",
+                            Gender = "Male"
+                        },
+                        new
+                        {
+                            ID = 4777,
+                            BirthDate = new DateTime(1998, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "marwan@gmail.com",
+                            FullName = "Marwan Salem",
+                            Gender = "Male"
+                        },
+                        new
+                        {
+                            ID = 4999,
+                            BirthDate = new DateTime(1999, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "nadine@gmail.com",
+                            FullName = "Nadine Ahmed",
+                            Gender = "Female"
+                        });
                 });
 
             modelBuilder.Entity("VacationForm.Models.EmployeeBalance", b =>
@@ -98,11 +128,26 @@ namespace VacationForm.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("ID");
 
                     b.ToTable("Vacations");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Balance = 7,
+                            Type = "casual"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Balance = 14,
+                            Type = "schedule"
+                        });
                 });
 
             modelBuilder.Entity("VacationForm.Models.EmployeeBalance", b =>

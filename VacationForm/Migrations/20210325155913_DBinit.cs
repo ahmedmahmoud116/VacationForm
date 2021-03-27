@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VacationForm.Migrations
 {
-    public partial class DBInit : Migration
+    public partial class DBinit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,9 +14,9 @@ namespace VacationForm.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    FullName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
+                    FullName = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(type: "varchar(254)", nullable: false),
+                    Gender = table.Column<string>(nullable: false),
                     BirthDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -30,7 +30,7 @@ namespace VacationForm.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Type = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: false),
                     Balance = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -90,6 +90,25 @@ namespace VacationForm.Migrations
                         principalTable: "Vacations",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "ID", "BirthDate", "Email", "FullName", "Gender" },
+                values: new object[,]
+                {
+                    { 4572, new DateTime(1998, 5, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "ahmed@gmail.com", "Ahmed Mahmouud", "Male" },
+                    { 4777, new DateTime(1998, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "marwan@gmail.com", "Marwan Salem", "Male" },
+                    { 4999, new DateTime(1999, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "nadine@gmail.com", "Nadine Ahmed", "Female" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Vacations",
+                columns: new[] { "ID", "Balance", "Type" },
+                values: new object[,]
+                {
+                    { 1, 7, "casual" },
+                    { 2, 14, "schedule" }
                 });
 
             migrationBuilder.CreateIndex(
