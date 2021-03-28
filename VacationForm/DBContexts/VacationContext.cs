@@ -28,8 +28,7 @@ namespace VacationForm.DBContexts
             modelBuilder.Entity<EmployeeBalance>(entity => {entity.HasOne(e => e.Employee).WithMany(eb => eb.EmployeeBalance)
                 .HasForeignKey("EmployeeID");});
             modelBuilder.Entity<EmployeeRequest>(entity => {entity.HasOne(e => e.Employee).WithMany(er => er.EmployeeRequest)
-                .HasForeignKey("EmployeeID");
-            });
+                .HasForeignKey("EmployeeID");});
 
             //PostSeed for vacation
             modelBuilder.Entity<Vacation>().HasData(new Vacation {ID = 1, Type = "casual", Balance = 7});
@@ -40,29 +39,29 @@ namespace VacationForm.DBContexts
             modelBuilder.Entity<EmployeeRequest>(entity => {entity.HasOne(e => e.Vacation).WithMany(er => er.EmployeeRequest)
                 .HasForeignKey("VacationID");});
 
-            ////PostSeed for EmployeeBalance
-            //modelBuilder.Entity<EmployeeBalance>().HasData(new EmployeeBalance { ID = 1, EmployeeID = 4572
-            //    , VacationID = 1 , Balance = 7});
-            //modelBuilder.Entity<EmployeeBalance>().HasData(new EmployeeBalance { ID = 2, EmployeeID = 4572
-            //    , VacationID = 2 , Balance = 14});
-            //modelBuilder.Entity<EmployeeBalance>().HasData(new EmployeeBalance { ID = 3, EmployeeID = 4777
-            //    , VacationID = 1 , Balance = 5});
-            //modelBuilder.Entity<EmployeeBalance>().HasData(new EmployeeBalance { ID = 4, EmployeeID = 4777
-            //    , VacationID = 2 , Balance = 12});
-            //modelBuilder.Entity<EmployeeBalance>().HasData(new EmployeeBalance { ID = 5, EmployeeID = 4999
-            //    , VacationID = 1 , Balance = 7});
-            //modelBuilder.Entity<EmployeeBalance>().HasData(new EmployeeBalance { ID = 6, EmployeeID = 4999
-            //    , VacationID = 2 , Balance = 14});
+            //PostSeed for EmployeeBalance
+            modelBuilder.Entity<EmployeeBalance>().HasData(new EmployeeBalance { ID = 1, EmployeeID = 4572
+                , VacationID = 1 , Balance = 7});
+            modelBuilder.Entity<EmployeeBalance>().HasData(new EmployeeBalance { ID = 2, EmployeeID = 4572
+                , VacationID = 2 , Balance = 14});
+            modelBuilder.Entity<EmployeeBalance>().HasData(new EmployeeBalance { ID = 3, EmployeeID = 4777
+                , VacationID = 1 , Balance = 5});
+            modelBuilder.Entity<EmployeeBalance>().HasData(new EmployeeBalance { ID = 4, EmployeeID = 4777
+                , VacationID = 2 , Balance = 12});
+            modelBuilder.Entity<EmployeeBalance>().HasData(new EmployeeBalance { ID = 5, EmployeeID = 4999
+                , VacationID = 1 , Balance = 7});
+            modelBuilder.Entity<EmployeeBalance>().HasData(new EmployeeBalance { ID = 6, EmployeeID = 4999
+                , VacationID = 2 , Balance = 14});
 
-            ////PostSeed for EmployeeRequest
-            //modelBuilder.Entity<EmployeeRequest>().HasData(new EmployeeRequest { ID = 1, EmployeeID = 4572
-            //    , VacationID = 1 , Days = 3});
-            //modelBuilder.Entity<EmployeeRequest>().HasData(new EmployeeRequest { ID = 2, EmployeeID = 4777
-            //    , VacationID = 2 , Days = 5});
-            //modelBuilder.Entity<EmployeeRequest>().HasData(new EmployeeRequest { ID = 3, EmployeeID = 4999
-            //    , VacationID = 2 , Days = 6});
-            //modelBuilder.Entity<EmployeeRequest>().HasData(new EmployeeRequest { ID = 4, EmployeeID = 4572
-            //    , VacationID = 1 , Days = 2});
+            //PostSeed for EmployeeRequest
+            modelBuilder.Entity<EmployeeRequest>().HasData(new EmployeeRequest { ID = 1, EmployeeID = 4572
+                , VacationID = 1 , Days = 3});
+            modelBuilder.Entity<EmployeeRequest>().HasData(new EmployeeRequest { ID = 2, EmployeeID = 4777
+                , VacationID = 2 , Days = 5});
+            modelBuilder.Entity<EmployeeRequest>().HasData(new EmployeeRequest { ID = 3, EmployeeID = 4999
+                , VacationID = 2 , Days = 6});
+            modelBuilder.Entity<EmployeeRequest>().HasData(new EmployeeRequest { ID = 4, EmployeeID = 4572
+                , VacationID = 1 , Days = 2});
 
         }
 
