@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VacationForm.DBContexts;
 using VacationForm.Models;
+using VacationForm.Repository;
+using VacationForm.RepositoryInterface;
 
 namespace VacationForm.Controllers
 {
@@ -15,17 +17,21 @@ namespace VacationForm.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly VacationContext _context;
+        private IEmployeeRepository employeeRepository;
 
-        public EmployeeController(VacationContext context)
+        public EmployeeController(VacationContext context, IEmployeeRepository employeeRepository)
         {
             _context = context;
+            this.employeeRepository = employeeRepository;
         }
 
         // GET: api/Employees
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
         {
-            return await _context.Employees.ToListAsync();
+            //List<Employee> list = await Task.Run(() => employeeRepository.GetAllEmployees());
+            List<Employee> list = employeeRepository.GetAllEmployees();
+            return Ok(list);
         }
 
         // GET: api/Employees/5

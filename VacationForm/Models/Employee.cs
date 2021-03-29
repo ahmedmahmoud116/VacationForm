@@ -6,10 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using VacationForm.Models.Attributes;
 
+
 namespace VacationForm.Models
 {
     public class Employee
-    {
+    { 
         public int ID { get; set; }
         [Required]
         public string FullName { get; set; }

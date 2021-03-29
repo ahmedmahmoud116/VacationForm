@@ -10,7 +10,7 @@ namespace VacationForm.DBContexts
         {
         }
 
-        public DbSet<Employee> Employees { get; set; }  //plural for convetions
+        public DbSet<Employee> Employees { get; set; }  //plural for conventions
         public DbSet<EmployeeBalance> EmployeeBalances { get; set; }
         public DbSet<EmployeeRequest> EmployeeRequests { get; set; }
         public DbSet<Vacation> Vacations { get; set; }

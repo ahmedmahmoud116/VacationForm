@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using VacationForm.Models;
 using VacationForm.DBContexts;
 using Pomelo.EntityFrameworkCore.MySql;
+using VacationForm.RepositoryInterface;
+using VacationForm.Repository;
 
 namespace VacationForm
 {
@@ -34,6 +36,7 @@ namespace VacationForm
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddControllers();
         }
 
