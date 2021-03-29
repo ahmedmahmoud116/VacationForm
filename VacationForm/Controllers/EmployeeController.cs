@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using VacationForm.DBContexts;
-using VacationForm.Models;
-using VacationForm.Repository;
-using VacationForm.RepositoryInterface;
+using Data.DBContexts;
+using Model.Models;
+using Repository.Repo;
+using Repository.RepositoryInterface;
 
 namespace VacationForm.Controllers
 {

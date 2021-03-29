@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VacationForm.Models
+namespace Model.Models
 {
     public class VacationView 
     {

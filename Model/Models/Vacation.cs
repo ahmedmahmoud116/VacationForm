@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using VacationForm.Models.Attributes;
 
-namespace VacationForm.Models
+namespace Model.Models
 {
     public class Vacation
     {
         public int ID { get; set; }
         [Required]
-        [TypeVacationUnique]
         public string Type { get; set; }
         public int Balance { get; set; } //default balance of each vacation type
         //EF create hashset by default and requests have list of each vacation entities in request table

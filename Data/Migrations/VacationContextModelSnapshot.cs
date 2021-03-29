@@ -2,17 +2,15 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using VacationForm.DBContexts;
+using Data.DBContexts;
 
-namespace VacationForm.Migrations
+namespace Data.Migrations
 {
     [DbContext(typeof(VacationContext))]
-    [Migration("20210325155913_DBinit")]
-    partial class DBinit
+    partial class VacationContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,6 +92,50 @@ namespace VacationForm.Migrations
                     b.HasIndex("VacationID");
 
                     b.ToTable("EmployeeBalances");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Balance = 7,
+                            EmployeeID = 4572,
+                            VacationID = 1
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Balance = 14,
+                            EmployeeID = 4572,
+                            VacationID = 2
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Balance = 5,
+                            EmployeeID = 4777,
+                            VacationID = 1
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Balance = 12,
+                            EmployeeID = 4777,
+                            VacationID = 2
+                        },
+                        new
+                        {
+                            ID = 5,
+                            Balance = 7,
+                            EmployeeID = 4999,
+                            VacationID = 1
+                        },
+                        new
+                        {
+                            ID = 6,
+                            Balance = 14,
+                            EmployeeID = 4999,
+                            VacationID = 2
+                        });
                 });
 
             modelBuilder.Entity("VacationForm.Models.EmployeeRequest", b =>
@@ -118,6 +160,36 @@ namespace VacationForm.Migrations
                     b.HasIndex("VacationID");
 
                     b.ToTable("EmployeeRequests");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Days = 3,
+                            EmployeeID = 4572,
+                            VacationID = 1
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Days = 5,
+                            EmployeeID = 4777,
+                            VacationID = 2
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Days = 6,
+                            EmployeeID = 4999,
+                            VacationID = 2
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Days = 2,
+                            EmployeeID = 4572,
+                            VacationID = 1
+                        });
                 });
 
             modelBuilder.Entity("VacationForm.Models.Vacation", b =>

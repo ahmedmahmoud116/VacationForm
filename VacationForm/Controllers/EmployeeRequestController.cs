@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using VacationForm.DBContexts;
-using VacationForm.Models;
+using Data.DBContexts;
+using Model.Models;
 
 namespace VacationForm.Controllers
 {

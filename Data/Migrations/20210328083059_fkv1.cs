@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace VacationForm.Migrations
+namespace Data.Migrations
 {
     public partial class fkv1 : Migration
     {

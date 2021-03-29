@@ -1,8 +1,8 @@
-﻿using VacationForm.Models;
+﻿using Model.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace VacationForm.DBContexts
+namespace Data.DBContexts
 {
     public class VacationContext : DbContext
     {
@@ -17,6 +17,16 @@ namespace VacationForm.DBContexts
         public DbSet<VacationView> VacationViews { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            /**Validation**/
+            modelBuilder.Entity<Employee>(entity =>
+            {
+                entity.HasIndex(e => e.Email).IsUnique();
+            });
+            modelBuilder.Entity<Vacation>(entity =>
+            {
+                entity.HasIndex(e => e.Type).IsUnique();
+            });
+
             //PostSeed for employee
             modelBuilder.Entity<Employee>().HasData(new Employee { ID = 4572, FullName = "Ahmed Mahmouud", Email = "ahmed@gmail.com"
                 , Gender = "Male", BirthDate = Convert.ToDateTime("1998-05-31")});

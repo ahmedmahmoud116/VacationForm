@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VacationForm.Models;
+using Model.Models;
 
-namespace VacationForm.RepositoryInterface
+namespace Repository.RepositoryInterface
 {
     public interface IEmployeeBalanceRepository
     {

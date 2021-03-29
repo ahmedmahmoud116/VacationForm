@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VacationForm.DBContexts;
-using VacationForm.Models;
+using Data.DBContexts;
+using Model.Models;
 using Microsoft.EntityFrameworkCore;
-using VacationForm.RepositoryInterface;
+using Repository.RepositoryInterface;
 
-namespace VacationForm.Repository
+namespace Repository.Repo
 {
     public class EmployeeRequestRepository : IEmployeeRequestRepository
     {

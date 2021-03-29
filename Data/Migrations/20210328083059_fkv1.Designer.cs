@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using VacationForm.DBContexts;
+using Data.DBContexts;
 
-namespace VacationForm.Migrations
+namespace Data.Migrations
 {
     [DbContext(typeof(VacationContext))]
-    partial class VacationContextModelSnapshot : ModelSnapshot
+    [Migration("20210328083059_fkv1")]
+    partial class fkv1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

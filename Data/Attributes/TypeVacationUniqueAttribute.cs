@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using VacationForm.DBContexts;
+using Data.DBContexts;
 
-namespace VacationForm.Models.Attributes
+namespace Data.Models.Attributes
 {
-    public class EmailEmployeeUniqueAttribute : ValidationAttribute
+    public class TypeVacationUniqueAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var _context = (VacationContext)validationContext.GetService(typeof(VacationContext));
-            var entity = _context.Employees.SingleOrDefault(e => e.Email == value.ToString());
+            var entity = _context.Vacations.SingleOrDefault(e => e.Type == value.ToString()); //ya2ma batrg3 al value aw null
 
             if (entity != null)
             {
@@ -20,10 +20,9 @@ namespace VacationForm.Models.Attributes
             }
             return ValidationResult.Success;
         }
-
-        public string GetErrorMessage(string email)
+        public string GetErrorMessage(string type)
         {
-            return $"Email {email} is already in use.";
+            return $"Name {type} is already in use.";
         }
     }
 }

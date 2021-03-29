@@ -11,11 +11,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using VacationForm.Models;
-using VacationForm.DBContexts;
+using Model.Models;
+using Data.DBContexts;
 using Pomelo.EntityFrameworkCore.MySql;
-using VacationForm.RepositoryInterface;
-using VacationForm.Repository;
+using Repository.RepositoryInterface;
+using Repository.Repo;
 
 namespace VacationForm
 {

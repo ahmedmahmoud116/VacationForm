@@ -4,10 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using VacationForm.Models.Attributes;
 
 
-namespace VacationForm.Models
+namespace Model.Models
 {
     public class Employee
     { 
@@ -17,7 +16,6 @@ namespace VacationForm.Models
 
         [Required]
         [EmailAddress]
-        [EmailEmployeeUnique]
         [Column("Email", TypeName = "varchar(254)")]
         public String Email { get; set; }//the question mark means the email is nullable
         [Required]
