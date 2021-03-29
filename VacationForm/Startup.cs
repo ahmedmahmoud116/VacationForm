@@ -31,7 +31,9 @@ namespace VacationForm
         {
             string mySqlConnectionStr = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContextPool<VacationContext>(options => options.UseMySql(mySqlConnectionStr));
-
+            services.AddControllers().AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
             services.AddControllers();
         }
 

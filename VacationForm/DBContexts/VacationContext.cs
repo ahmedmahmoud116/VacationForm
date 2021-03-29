@@ -14,7 +14,7 @@ namespace VacationForm.DBContexts
         public DbSet<EmployeeBalance> EmployeeBalances { get; set; }
         public DbSet<EmployeeRequest> EmployeeRequests { get; set; }
         public DbSet<Vacation> Vacations { get; set; }
-
+        public DbSet<VacationView> VacationViews { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //PostSeed for employee
@@ -63,6 +63,7 @@ namespace VacationForm.DBContexts
             modelBuilder.Entity<EmployeeRequest>().HasData(new EmployeeRequest { ID = 4, EmployeeID = 4572
                 , VacationID = 1 , Days = 2});
 
+            modelBuilder.Entity<VacationView>().HasKey(v => v.ID);
         }
 
 

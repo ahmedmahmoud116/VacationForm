@@ -25,8 +25,35 @@ namespace VacationForm.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeBalance>>> GetEmployeeBalances()
         {
-            return await _context.EmployeeBalances.ToListAsync();
+            var query = from e in _context.Employees
+                        join eb in _context.EmployeeBalances on e.ID equals eb.EmployeeID
+                        join v in _context.Vacations on eb.VacationID equals v.ID into group2
+                        from g2 in group2.DefaultIfEmpty()
+                        join er in _context.EmployeeRequests on new { eb.EmployeeID, eb.VacationID }
+                                                             equals new { er.EmployeeID, er.VacationID } into group3
+                        from g3 in group3.DefaultIfEmpty()
+                        orderby e.FullName
+                        select new VacationView { FullName = e.FullName, Type = g2.Type, Balance = eb.Balance, Used = g3.Days };
+
+            List<VacationView> employeevacations = query.ToList();
+            employeevacations = employeevacations.GroupBy(v => new
+            {
+                v.Type,
+                v.FullName
+            })
+                .Select(g => new VacationView()
+            {
+                Type = g.Key.Type,
+                FullName = g.Key.FullName,
+                Balance = g.FirstOrDefault().Balance,
+                Used = g.Sum(u => u.Used)
+            }).ToList();
+
+            return Ok(employeevacations);
+            //return await _context.EmployeeBalances.ToListAsync();
         }
+
+
 
         // GET: api/EmployeeBalances/5
         [HttpGet("{id}")]
