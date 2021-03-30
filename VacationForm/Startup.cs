@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using Model.Models;
 using Data.DBContexts;
 using Pomelo.EntityFrameworkCore.MySql;
+using Service.Services;
+using Service.Serv;
 using Repository.RepositoryInterface;
 using Repository.Repo;
 
@@ -37,6 +39,13 @@ namespace VacationForm
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IEmployeeService, EmployeeService>(); //when you ran up into IEmployeeService create EmployeeService
+            services.AddScoped<IVacationRepository, VacationRepository>();
+            services.AddScoped<IVacationService, VacationService>();
+            services.AddScoped<IEmployeeBalanceRepository, EmployeeBalanceRepository>();
+            services.AddScoped<IEmployeeBalanceService, EmployeeBalanceService>();
+            services.AddScoped<IEmployeeRequestRepository, EmployeeRequestRepository>();
+            services.AddScoped<IEmployeeRequestService, EmployeeRequestService>();
             services.AddControllers();
         }
 

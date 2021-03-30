@@ -19,19 +19,19 @@ namespace Repository.Repo
             this.context = context;
             vacationEntity = context.Set<Vacation>();
         }
-        public void CreateVacation(Vacation vacation)
+        public void AddVacation(Vacation vacation)
         {
             vacationEntity.Add(vacation);
             context.SaveChanges();
         }
 
-        public void DeleteVacation(int id)
+        public Vacation DeleteVacation(int id)
         {
             Vacation vacation = GetVacation(id);
             vacationEntity.Remove(vacation);
             context.SaveChanges();
+            return vacation;
         }
-
         public List<Vacation> GetAllVacations()
         {
             return vacationEntity.ToList();
@@ -46,6 +46,14 @@ namespace Repository.Repo
         {
             vacationEntity.Update(vacation);
             context.SaveChanges();
+        }
+        public void StateVacation(Vacation vacation, EntityState state)
+        {
+            context.Entry(vacation).State = state;
+        }
+        public void SaveVacation()
+        {
+            context.SaveChangesAsync();
         }
     }
 }

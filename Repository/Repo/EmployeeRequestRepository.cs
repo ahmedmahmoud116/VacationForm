@@ -19,17 +19,18 @@ namespace Repository.Repo
             this.context = context;
             employeeRequestEntity = context.Set<EmployeeRequest>();
         }
-        public void CreateEmployeeRequest(EmployeeRequest employeeRequest)
+        public void AddEmployeeRequest(EmployeeRequest employeeRequest)
         {
             employeeRequestEntity.Add(employeeRequest);
             context.SaveChanges();
         }
 
-        public void DeleteEmployeeRequest(int id)
+        public EmployeeRequest DeleteEmployeeRequest(int id)
         {
             EmployeeRequest employeeRequest = GetEmployeeRequest(id);
             employeeRequestEntity.Remove(employeeRequest);
             context.SaveChanges();
+            return employeeRequest;
         }
 
         public List<EmployeeRequest> GetAllEmployeeRequests()
@@ -46,6 +47,15 @@ namespace Repository.Repo
         {
             employeeRequestEntity.Update(employeeRequest);
             context.SaveChanges();
+        }
+
+        public void StateEmployeeRequest(EmployeeRequest employeeRequest, EntityState state)
+        {
+            context.Entry(employeeRequest).State = state;
+        }
+        public void SaveEmployeeRequest()
+        {
+            context.SaveChangesAsync();
         }
     }
 }

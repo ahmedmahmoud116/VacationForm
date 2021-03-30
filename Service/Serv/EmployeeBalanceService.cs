@@ -4,10 +4,11 @@ using System.Text;
 using Service.Services;
 using Repository.RepositoryInterface;
 using Model.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Service.Serv
 {
-    class EmployeeBalanceService : IEmployeeBalanceService
+    public class EmployeeBalanceService : IEmployeeBalanceService
     {
         private readonly IEmployeeBalanceRepository _employeeBalanceRepo;
 
@@ -16,14 +17,14 @@ namespace Service.Serv
             this._employeeBalanceRepo = employeeBalanceRepository;
         }
 
-        public void CreateEmployeeBalance(EmployeeBalance employeeBalance)
+        public void AddEmployeeBalance(EmployeeBalance employeeBalance)
         {
-            _employeeBalanceRepo.CreateEmployeeBalance(employeeBalance);
+            _employeeBalanceRepo.AddEmployeeBalance(employeeBalance);
         }
 
-        public void DeleteEmployeeBalance(int id)
+        public EmployeeBalance DeleteEmployeeBalance(int id)
         {
-            _employeeBalanceRepo.DeleteEmployeeBalance(id);
+            return _employeeBalanceRepo.DeleteEmployeeBalance(id);
         }
 
         public List<EmployeeBalance> GetAllEmployeeBalances()
@@ -39,6 +40,19 @@ namespace Service.Serv
         public void UpdateEmployeeBalance(EmployeeBalance employeeBalance)
         {
             _employeeBalanceRepo.UpdateEmployeeBalance(employeeBalance);
+        }
+        public void StateEmployeeBalance(EmployeeBalance employeeBalance, EntityState state)
+        {
+            _employeeBalanceRepo.StateEmployeeBalance(employeeBalance, state);
+        }
+        public void SaveEmployeeBalance()
+        {
+            _employeeBalanceRepo.SaveEmployeeBalance();
+        }
+
+        public bool EmployeeBalanceExists(int id)
+        {
+            return _employeeBalanceRepo.GetEmployeeBalance(id) == null ? false : true;
         }
     }
 }

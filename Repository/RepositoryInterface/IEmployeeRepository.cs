@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Model.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.RepositoryInterface
 {
     public interface IEmployeeRepository
     {
-        void CreateEmployee(Employee employee); //to add employee
+        void AddEmployee(Employee employee); //to add employee
         List<Employee> GetAllEmployees();
         Employee GetEmployee(int id);
-        void DeleteEmployee(int id);
+        Employee DeleteEmployee(int id);
         void UpdateEmployee(Employee employee); //to edit employee
+        public void StateEmployee(Employee employee, EntityState state); //to return state of employee
+        public void SaveEmployee(); //to save changes in the db
     }
 }

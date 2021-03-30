@@ -19,17 +19,18 @@ namespace Repository.Repo
             this.context = context;
             employeeEntity = context.Employees;
         }
-        public void CreateEmployee(Employee employee)
+        public void AddEmployee(Employee employee)
         {
             employeeEntity.Add(employee);
             context.SaveChanges();
         }
 
-        public void DeleteEmployee(int id)
+        public Employee DeleteEmployee(int id)
         {
             Employee employee = GetEmployee(id);
             employeeEntity.Remove(employee);
             context.SaveChanges();
+            return employee;
         }
 
         public List<Employee> GetAllEmployees()
@@ -46,6 +47,15 @@ namespace Repository.Repo
         {
                 employeeEntity.Update(employee);
                 context.SaveChanges();
+        }
+
+        public void StateEmployee(Employee employee, EntityState state)
+        {
+            context.Entry(employee).State = state;
+        }
+        public void SaveEmployee()
+        {
+            context.SaveChangesAsync();
         }
     }
 }

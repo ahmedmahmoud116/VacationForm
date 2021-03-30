@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Data.DBContexts;
 using Model.Models;
-using Repository.Repo;
-using Repository.RepositoryInterface;
+using Service.Services;
+using Service.Serv;
 
 namespace VacationForm.Controllers
 {
@@ -16,21 +16,19 @@ namespace VacationForm.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly VacationContext _context;
-        private IEmployeeRepository employeeRepository;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeeController(VacationContext context, IEmployeeRepository employeeRepository)
+        public EmployeeController(IEmployeeService employeeService)
         {
-            _context = context;
-            this.employeeRepository = employeeRepository;
+            this._employeeService = employeeService;
         }
 
         // GET: api/Employees
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
         {
-            //List<Employee> list = await Task.Run(() => employeeRepository.GetAllEmployees());
-            List<Employee> list = employeeRepository.GetAllEmployees();
+            //List<Employee> list = await Task.Run(() => employeeService.GetAllEmployees());
+            List<Employee> list = _employeeService.GetAllEmployees();
             return Ok(list);
         }
 
@@ -38,7 +36,8 @@ namespace VacationForm.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetEmployee(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
+            //var employee = await _context.Employees.FindAsync(id);
+            var employee = _employeeService.GetEmployee(id);
 
             if (employee == null)
             {
@@ -59,15 +58,17 @@ namespace VacationForm.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(employee).State = EntityState.Modified;
+            //_context.Entry(employee).State = EntityState.Modified;
+            _employeeService.StateEmployee(employee, EntityState.Modified);
 
             try
             {
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
+                _employeeService.SaveEmployee();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EmployeeExists(id))
+                if (!_employeeService.EmployeeExists(id))
                 {
                     return NotFound();
                 }
@@ -86,8 +87,9 @@ namespace VacationForm.Controllers
         [HttpPost]
         public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
         {
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
+            //_context.Employees.Add(employee);
+            //await _context.SaveChangesAsync();
+            _employeeService.AddEmployee(employee);
 
             //return CreatedAtAction("GetEmployee", new { id = employee.ID }, employee); 
             //The CreatedAtAction method: Returns an HTTP 201 status code if successful.
@@ -97,32 +99,21 @@ namespace VacationForm.Controllers
             return CreatedAtAction(nameof(GetEmployee), new { id = employee.ID }, employee); //reference GetEmployee action to create 
         }
 
-        private Boolean isEmailUnique(String email)
-        {
-            if (_context.Employees.Any(e => (string.Compare(e.Email, email, false) == 0)))
-                return false;
-            return true;
-        }
-
         // DELETE: api/Employees/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Employee>> DeleteEmployee(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
+            //var employee = await _context.Employees.FindAsync(id);
+            var employee = _employeeService.DeleteEmployee(id);
             if (employee == null)
             {
                 return NotFound();
             }
 
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
+            //_context.Employees.Remove(employee);
+            //await _context.SaveChangesAsync();
 
             return employee;
-        }
-
-        private bool EmployeeExists(int id)
-        {
-            return _context.Employees.Any(e => e.ID == id);
         }
     }
 }

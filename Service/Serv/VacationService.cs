@@ -2,10 +2,11 @@
 using Service.Services;
 using Repository.RepositoryInterface;
 using Model.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Service.Serv
 {
-    class VacationService : IVacationService
+    public class VacationService : IVacationService
     {
         private readonly IVacationRepository _vacationRepo;
 
@@ -14,14 +15,14 @@ namespace Service.Serv
             this._vacationRepo = vacationRepository;
         }
 
-        public void CreateVacation(Vacation vacation)
+        public void AddVacation(Vacation vacation)
         {
-            _vacationRepo.CreateVacation(vacation);
+            _vacationRepo.AddVacation(vacation);
         }
 
-        public void DeleteVacation(int id)
+        public Vacation DeleteVacation(int id)
         {
-            _vacationRepo.DeleteVacation(id);
+           return _vacationRepo.DeleteVacation(id);
         }
 
         public List<Vacation> GetAllVacations()
@@ -37,6 +38,19 @@ namespace Service.Serv
         public void UpdateVacation(Vacation vacation)
         {
             _vacationRepo.UpdateVacation(vacation);
+        }
+        public void StateVacation(Vacation vacation, EntityState state)
+        {
+            _vacationRepo.StateVacation(vacation, state);
+        }
+        public void SaveVacation()
+        {
+            _vacationRepo.SaveVacation();
+        }
+
+        public bool VacationExists(int id)
+        {
+            return _vacationRepo.GetVacation(id) == null ? false : true;
         }
     }
 }

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Data.DBContexts;
 using Model.Models;
+using Service.Serv;
+using Service.Services;
 
 namespace VacationForm.Controllers
 {
@@ -14,25 +16,28 @@ namespace VacationForm.Controllers
     [ApiController]
     public class VacationController : ControllerBase
     {
-        private readonly VacationContext _context;
+        private readonly IVacationService _vacationService;
 
-        public VacationController(VacationContext context)
+        public VacationController(IVacationService vacationService)
         {
-            _context = context;
+            this._vacationService = vacationService;
         }
 
         // GET: api/Vacations
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vacation>>> GetVacations()
         {
-            return await _context.Vacations.ToListAsync();
+            //return await _context.Vacations.ToListAsync();
+            List<Vacation> list = _vacationService.GetAllVacations();
+            return Ok(list);
         }
 
         // GET: api/Vacations/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Vacation>> GetVacation(int id)
         {
-            var vacation = await _context.Vacations.FindAsync(id);
+            //var vacation = await _context.Vacations.FindAsync(id);
+            var vacation = _vacationService.GetVacation(id);
 
             if (vacation == null)
             {
@@ -53,15 +58,17 @@ namespace VacationForm.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(vacation).State = EntityState.Modified;
+            //_context.Entry(vacation).State = EntityState.Modified;
+            _vacationService.StateVacation(vacation, EntityState.Modified);
 
             try
             {
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
+                _vacationService.SaveVacation();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!VacationExists(id))
+                if (!_vacationService.VacationExists(id))
                 {
                     return NotFound();
                 }
@@ -80,8 +87,9 @@ namespace VacationForm.Controllers
         [HttpPost]
         public async Task<ActionResult<Vacation>> PostVacation(Vacation vacation)
         {
-            _context.Vacations.Add(vacation);
-            await _context.SaveChangesAsync();
+            //_context.Vacations.Add(vacation);
+            //await _context.SaveChangesAsync();
+            _vacationService.AddVacation(vacation);
 
             return CreatedAtAction("GetVacation", new { id = vacation.ID }, vacation);
         }
@@ -90,21 +98,17 @@ namespace VacationForm.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Vacation>> DeleteVacation(int id)
         {
-            var vacation = await _context.Vacations.FindAsync(id);
+            //var vacation = await _context.Vacations.FindAsync(id);
+            var vacation = _vacationService.DeleteVacation(id);
             if (vacation == null)
             {
                 return NotFound();
             }
 
-            _context.Vacations.Remove(vacation);
-            await _context.SaveChangesAsync();
+            //_context.Vacations.Remove(vacation);
+            //await _context.SaveChangesAsync();
 
             return vacation;
-        }
-
-        private bool VacationExists(int id)
-        {
-            return _context.Vacations.Any(e => e.ID == id);
         }
     }
 }

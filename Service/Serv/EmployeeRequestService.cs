@@ -2,10 +2,11 @@
 using Service.Services;
 using Repository.RepositoryInterface;
 using Model.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Service.Serv
 {
-    class EmployeeRequestService : IEmployeeRequestService
+    public class EmployeeRequestService : IEmployeeRequestService
     {
         private readonly IEmployeeRequestRepository _employeeRequestRepo;
 
@@ -14,14 +15,14 @@ namespace Service.Serv
             this._employeeRequestRepo = employeeRequestRepository;
         }
 
-        public void CreateEmployeeRequest(EmployeeRequest employeeRequest)
+        public void AddEmployeeRequest(EmployeeRequest employeeRequest)
         {
-            _employeeRequestRepo.CreateEmployeeRequest(employeeRequest);
+            _employeeRequestRepo.AddEmployeeRequest(employeeRequest);
         }
 
-        public void DeleteEmployeeRequest(int id)
+        public EmployeeRequest DeleteEmployeeRequest(int id)
         {
-            _employeeRequestRepo.DeleteEmployeeRequest(id);
+            return _employeeRequestRepo.DeleteEmployeeRequest(id);
         }
 
         public List<EmployeeRequest> GetAllEmployeeRequests()
@@ -37,6 +38,19 @@ namespace Service.Serv
         public void UpdateEmployeeRequest(EmployeeRequest employeeRequest)
         {
             _employeeRequestRepo.UpdateEmployeeRequest(employeeRequest);
+        }
+        public void StateEmployeeRequest(EmployeeRequest employeeRequest, EntityState state)
+        {
+            _employeeRequestRepo.StateEmployeeRequest(employeeRequest, state);
+        }
+        public void SaveEmployeeRequest()
+        {
+            _employeeRequestRepo.SaveEmployeeRequest();
+        }
+
+        public bool EmployeeRequestExists(int id)
+        {
+            return _employeeRequestRepo.GetEmployeeRequest(id) == null ? false : true;
         }
     }
 }
