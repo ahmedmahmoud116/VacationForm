@@ -37,9 +37,35 @@ namespace Repository.Repo
             return employeeBalance;
         }
 
-        public List<EmployeeBalance> GetAllEmployeeBalances()
+        //public List<EmployeeBalance> GetAllEmployeeBalances(){}
+        public List<VacationView> GetAllEmployeeBalances()
         {
-            return context.EmployeeBalances.ToList();
+            var query = from e in context.Employees
+                        join eb in context.EmployeeBalances on e.ID equals eb.EmployeeID
+                        join v in context.Vacations on eb.VacationID equals v.ID into group2
+                        from g2 in group2.DefaultIfEmpty()
+                        join er in context.EmployeeRequests on new { eb.EmployeeID, eb.VacationID }
+                                                            equals new { er.EmployeeID, er.VacationID } into group3
+                        from g3 in group3.DefaultIfEmpty()
+                        orderby e.FullName
+                        select new VacationView { FullName = e.FullName, Type = g2.Type, Balance = eb.Balance, Used = g3.Days };
+
+            List<VacationView> employeevacations = query.ToList();
+            employeevacations = employeevacations.GroupBy(v => new
+            {
+                v.Type,
+                v.FullName
+            })
+                .Select(g => new VacationView()
+                {
+                    Type = g.Key.Type,
+                    FullName = g.Key.FullName,
+                    Balance = g.FirstOrDefault().Balance,
+                    Used = g.Sum(u => u.Used)
+                }).ToList();
+
+            return employeevacations;
+            //return context.EmployeeBalances.ToList();
         }
 
         public EmployeeBalance GetEmployeeBalance(int id)

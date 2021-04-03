@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Model.Models;
 using Microsoft.EntityFrameworkCore;
 namespace Service.Services
@@ -9,7 +6,8 @@ namespace Service.Services
     public interface IEmployeeBalanceService
     {
         void AddEmployeeBalance(EmployeeBalance employeeBalance); //to add EmployeeBalance
-        List<EmployeeBalance> GetAllEmployeeBalances();
+        //List<EmployeeBalance> GetAllEmployeeBalances();
+        List<VacationView> GetAllEmployeeBalances();
         EmployeeBalance GetEmployeeBalance(int id);
         EmployeeBalance DeleteEmployeeBalance(int id);
         void UpdateEmployeeBalance(EmployeeBalance employeeBalance); //to edit EmployeeBalance

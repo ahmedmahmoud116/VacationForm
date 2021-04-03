@@ -27,7 +27,11 @@ namespace Service.Serv
             return _employeeBalanceRepo.DeleteEmployeeBalance(id);
         }
 
-        public List<EmployeeBalance> GetAllEmployeeBalances()
+        //public List<EmployeeBalance> GetAllEmployeeBalances()
+        //{
+        //    return _employeeBalanceRepo.GetAllEmployeeBalances();
+        //}
+        public List<VacationView> GetAllEmployeeBalances()
         {
             return _employeeBalanceRepo.GetAllEmployeeBalances();
         }

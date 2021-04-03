@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Data.DBContexts;
 using Model.Models;
 using Service.Services;
-using Service.Serv;
 
 namespace VacationForm.Controllers
 {
@@ -17,42 +12,16 @@ namespace VacationForm.Controllers
     public class EmployeeBalanceController : ControllerBase
     {
         private readonly IEmployeeBalanceService _employeeBalanceService;
-        private readonly VacationContext _context;
-        public EmployeeBalanceController(IEmployeeBalanceService employeeBalanceService, VacationContext context)
+        public EmployeeBalanceController(IEmployeeBalanceService employeeBalanceService)
         {
             this._employeeBalanceService = employeeBalanceService;
-            this._context = context;
         }
 
         // GET: api/EmployeeBalances
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeBalance>>> GetEmployeeBalances()
         {
-            var query = from e in _context.Employees
-                        join eb in _context.EmployeeBalances on e.ID equals eb.EmployeeID
-                        join v in _context.Vacations on eb.VacationID equals v.ID into group2
-                        from g2 in group2.DefaultIfEmpty()
-                        join er in _context.EmployeeRequests on new { eb.EmployeeID, eb.VacationID }
-                                                             equals new { er.EmployeeID, er.VacationID } into group3
-                        from g3 in group3.DefaultIfEmpty()
-                        orderby e.FullName
-                        select new VacationView { FullName = e.FullName, Type = g2.Type, Balance = eb.Balance, Used = g3.Days };
-
-            List<VacationView> employeevacations = query.ToList();
-            employeevacations = employeevacations.GroupBy(v => new
-            {
-                v.Type,
-                v.FullName
-            })
-                .Select(g => new VacationView()
-            {
-                Type = g.Key.Type,
-                FullName = g.Key.FullName,
-                Balance = g.FirstOrDefault().Balance,
-                Used = g.Sum(u => u.Used)
-            }).ToList();
-
-            return Ok(employeevacations);
+            return Ok(_employeeBalanceService.GetAllEmployeeBalances());
             //return await _context.EmployeeBalances.ToListAsync();
         }
 
