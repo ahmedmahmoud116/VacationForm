@@ -12,27 +12,18 @@ namespace Repository.Repo
 {
     public class VacationRepository: IVacationRepository
     {
-        private IDbFactory dbFactory;
-        private VacationContext _context;
-        //private DbSet<Vacation> _vacationEntity;
+        private readonly IDbFactory dbFactory;
+        private readonly VacationContext _context;
 
         public VacationRepository(IDbFactory dbFactory)
         {
             this.dbFactory = dbFactory;
             this._context = dbFactory.init();
-            //this._vacationEntity = _context.Set<Vacation>();
-           // _context = dbFactory.init();
-            //vacationEntity = dbFactory.init().Set<Vacation>();
         }
         public VacationContext context
         {
             get { return _context == null ? dbFactory.init() : _context; }
         }
-
-        //public DbSet<Vacation> vacationEntity
-        //{
-        //    set { _vacationEntity = context.Set<Vacation>(); }
-        //}
 
 
         public void AddVacation(Vacation vacation)

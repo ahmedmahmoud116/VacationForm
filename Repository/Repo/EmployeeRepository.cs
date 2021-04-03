@@ -12,16 +12,13 @@ namespace Repository.Repo
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        //private readonly IUnitOfWork unitOfWork;
-        private IDbFactory dbFactory;
-        private VacationContext _context;
-        //private DbSet<Employee> _employeeEntity;
+        private readonly IDbFactory dbFactory;
+        private readonly VacationContext _context;
 
-        public EmployeeRepository(IDbFactory dbFactory, VacationContext context)
+        public EmployeeRepository(IDbFactory dbFactory)
         {
             this.dbFactory = dbFactory;
             this._context = dbFactory.init();
-            //this._employeeEntity = _context.Set<Employee>();
         }
 
         public VacationContext context
@@ -29,10 +26,6 @@ namespace Repository.Repo
             get { return _context == null ? dbFactory.init() : _context; }
         }
 
-        //public DbSet<Employee> employeeEntity
-        //{
-        //    set { _employeeEntity =  context.Set<Employee>(); }
-        //}
         public void AddEmployee(Employee employee)
         {
             context.Add(employee);
