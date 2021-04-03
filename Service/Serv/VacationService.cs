@@ -3,15 +3,17 @@ using Service.Services;
 using Repository.RepositoryInterface;
 using Model.Models;
 using Microsoft.EntityFrameworkCore;
+using UnitOfWorks.Interfaces;
 
 namespace Service.Serv
 {
     public class VacationService : IVacationService
     {
         private readonly IVacationRepository _vacationRepo;
-
-        public VacationService(IVacationRepository vacationRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public VacationService(IUnitOfWork unitOfWork, IVacationRepository vacationRepository)
         {
+            this._unitOfWork = unitOfWork;
             this._vacationRepo = vacationRepository;
         }
 
@@ -45,7 +47,7 @@ namespace Service.Serv
         }
         public void SaveVacation()
         {
-            _vacationRepo.SaveVacation();
+            _unitOfWork.Commit();
         }
 
         public bool VacationExists(int id)

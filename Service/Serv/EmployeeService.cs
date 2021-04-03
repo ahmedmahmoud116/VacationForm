@@ -3,56 +3,68 @@ using Service.Services;
 using Repository.RepositoryInterface;
 using Model.Models;
 using Microsoft.EntityFrameworkCore;
+using UnitOfWorks.Interfaces;
 
 namespace Service.Serv
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly IEmployeeRepository _employeeRepo;
+        private IEmployeeRepository employeeRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public EmployeeService(IEmployeeRepository employeeRepo)
+        public EmployeeService(IUnitOfWork unitOfWork, IEmployeeRepository employeeRepository)
         {
-            this._employeeRepo = employeeRepo;
+            this.unitOfWork = unitOfWork;
+            this.employeeRepository = employeeRepository;
         }
 
         public void AddEmployee(Employee employee)
         {
-            _employeeRepo.AddEmployee(employee);
+            employeeRepository.AddEmployee(employee);
         }
 
         public Employee DeleteEmployee(int id)
         {
-            return _employeeRepo.DeleteEmployee(id);
+            return employeeRepository.DeleteEmployee(id);
         }
 
         public List<Employee> GetAllEmployees()
         {
-            return _employeeRepo.GetAllEmployees();
+            return employeeRepository.GetAllEmployees();
         }
 
         public Employee GetEmployee(int id)
         {
-            return _employeeRepo.GetEmployee(id);
+            return employeeRepository.GetEmployee(id);
         }
 
         public void UpdateEmployee(Employee employee)
         {
-            _employeeRepo.UpdateEmployee(employee);
+            employeeRepository.UpdateEmployee(employee);
         }
 
         public void StateEmployee(Employee employee, EntityState state)
         {
-            _employeeRepo.StateEmployee(employee, state);
+            employeeRepository.StateEmployee(employee, state);
         }
 
         public void SaveEmployee()
         {
-            _employeeRepo.SaveEmployee();
+            //employeeRepository.SaveEmployee();
+            unitOfWork.Commit();
         }
 
         public bool EmployeeExists(int id)
         {
-            return _employeeRepo.GetEmployee(id) == null ? false : true;
+            return employeeRepository.GetEmployee(id) == null ? false : true;
+        }
+        public bool EmployeeExists(string FullName)
+        {
+            return employeeRepository.GetEmployee(FullName) == null ? false : true;
+        }
+        public Employee GetEmployee(string FullName)
+        {
+            return employeeRepository.GetEmployee(FullName);
         }
     }
 }

@@ -2,51 +2,65 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Data.DBContexts;
 using Model.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.RepositoryInterface;
+using Data.DBContexts;
+using Data.Factory;
 
 namespace Repository.Repo
 {
-    public class EmployeeRepository: IEmployeeRepository
+    public class EmployeeRepository : IEmployeeRepository
     {
-        private VacationContext context;
-        private DbSet<Employee> employeeEntity;
+        //private readonly IUnitOfWork unitOfWork;
+        private IDbFactory dbFactory;
+        private VacationContext _context;
+        //private DbSet<Employee> _employeeEntity;
 
-        public EmployeeRepository(VacationContext context)
+        public EmployeeRepository(IDbFactory dbFactory, VacationContext context)
         {
-            this.context = context;
-            employeeEntity = context.Employees;
+            this.dbFactory = dbFactory;
+            this._context = dbFactory.init();
+            //this._employeeEntity = _context.Set<Employee>();
         }
+
+        public VacationContext context
+        {
+            get { return _context == null ? dbFactory.init() : _context; }
+        }
+
+        //public DbSet<Employee> employeeEntity
+        //{
+        //    set { _employeeEntity =  context.Set<Employee>(); }
+        //}
         public void AddEmployee(Employee employee)
         {
-            employeeEntity.Add(employee);
-            context.SaveChanges();
+            context.Add(employee);
+            //context.SaveChanges();
         }
 
         public Employee DeleteEmployee(int id)
         {
             Employee employee = GetEmployee(id);
-            employeeEntity.Remove(employee);
-            context.SaveChanges();
+            context.Remove(employee);
+            //context.SaveChanges();
             return employee;
         }
 
         public List<Employee> GetAllEmployees()
         {
-            return employeeEntity.ToList();
+            return context.Employees.ToList();
         }
 
         public Employee GetEmployee(int id)
         {
-            return employeeEntity.SingleOrDefault(e => e.ID == id);
+            return context.Employees.SingleOrDefault(e => e.ID == id);
         }
 
         public void UpdateEmployee(Employee employee)
         {
-                employeeEntity.Update(employee);
-                context.SaveChanges();
+            context.Update(employee);
+            //context.SaveChanges();
         }
 
         public void StateEmployee(Employee employee, EntityState state)
@@ -56,6 +70,10 @@ namespace Repository.Repo
         public void SaveEmployee()
         {
             context.SaveChangesAsync();
+        }
+        public Employee GetEmployee(string FullName)
+        {
+            return context.Employees.SingleOrDefault(e => e.FullName.Equals(FullName));
         }
     }
 }

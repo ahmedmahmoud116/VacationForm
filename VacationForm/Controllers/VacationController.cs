@@ -90,6 +90,7 @@ namespace VacationForm.Controllers
             //_context.Vacations.Add(vacation);
             //await _context.SaveChangesAsync();
             _vacationService.AddVacation(vacation);
+            _vacationService.SaveVacation();
 
             return CreatedAtAction("GetVacation", new { id = vacation.ID }, vacation);
         }
@@ -105,6 +106,7 @@ namespace VacationForm.Controllers
                 return NotFound();
             }
 
+            _vacationService.SaveVacation();
             //_context.Vacations.Remove(vacation);
             //await _context.SaveChangesAsync();
 

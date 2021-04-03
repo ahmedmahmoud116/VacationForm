@@ -2,60 +2,73 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Data.DBContexts;
 using Model.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.RepositoryInterface;
+using Data.Factory;
+using Data.DBContexts;
 
 namespace Repository.Repo
 {
     public class EmployeeRequestRepository : IEmployeeRequestRepository
     {
-        private VacationContext context;
-        private DbSet<EmployeeRequest> employeeRequestEntity;
+        //private IDbFactory dbFactory;
+        private VacationContext _context;
+        private DbSet<EmployeeRequest> _employeeRequestEntity;
 
         public EmployeeRequestRepository(VacationContext context)
         {
-            this.context = context;
-            employeeRequestEntity = context.Set<EmployeeRequest>();
+            //this.dbFactory = dbFactory;
+            this._context = context;
+            _employeeRequestEntity = _context.Set<EmployeeRequest>();
         }
+        //public VacationContext context
+        //{
+        //    get { return _context == null ? dbFactory.init() : _context; }
+        //}
+
+        //public DbSet<EmployeeRequest> employeeRequestEntity
+        //{
+        //    set { _employeeRequestEntity = context.Set<EmployeeRequest>(); }
+        //}
+
         public void AddEmployeeRequest(EmployeeRequest employeeRequest)
         {
-            employeeRequestEntity.Add(employeeRequest);
-            context.SaveChanges();
+            _employeeRequestEntity.Add(employeeRequest);
+            //context.SaveChanges();
         }
 
         public EmployeeRequest DeleteEmployeeRequest(int id)
         {
             EmployeeRequest employeeRequest = GetEmployeeRequest(id);
-            employeeRequestEntity.Remove(employeeRequest);
-            context.SaveChanges();
+            _employeeRequestEntity.Remove(employeeRequest);
+            //context.SaveChanges();
             return employeeRequest;
         }
 
         public List<EmployeeRequest> GetAllEmployeeRequests()
         {
-            return employeeRequestEntity.ToList();
+            return _employeeRequestEntity.ToList();
         }
 
         public EmployeeRequest GetEmployeeRequest(int id)
         {
-            return employeeRequestEntity.SingleOrDefault(e => e.ID == id);
+            return _employeeRequestEntity.SingleOrDefault(e => e.ID == id);
         }
 
         public void UpdateEmployeeRequest(EmployeeRequest employeeRequest)
         {
-            employeeRequestEntity.Update(employeeRequest);
-            context.SaveChanges();
+            _employeeRequestEntity.Update(employeeRequest);
+            //_context.SaveChanges();
         }
 
         public void StateEmployeeRequest(EmployeeRequest employeeRequest, EntityState state)
         {
-            context.Entry(employeeRequest).State = state;
+            _context.Entry(employeeRequest).State = state;
         }
         public void SaveEmployeeRequest()
         {
-            context.SaveChangesAsync();
+            _context.SaveChangesAsync();
         }
     }
 }

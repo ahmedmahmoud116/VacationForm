@@ -1,23 +1,17 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Model.Models;
 using Data.DBContexts;
-using Pomelo.EntityFrameworkCore.MySql;
 using Service.Services;
 using Service.Serv;
 using Repository.RepositoryInterface;
 using Repository.Repo;
+using UnitOfWorks.Interfaces;
+using UnitOfWorks.Classes;
+using Data.Factory;
 
 namespace VacationForm
 {
@@ -38,6 +32,7 @@ namespace VacationForm
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
+            services.AddTransient<VacationContext>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IEmployeeService, EmployeeService>(); //when you ran up into IEmployeeService create EmployeeService
             services.AddScoped<IVacationRepository, VacationRepository>();
@@ -46,6 +41,8 @@ namespace VacationForm
             services.AddScoped<IEmployeeBalanceService, EmployeeBalanceService>();
             services.AddScoped<IEmployeeRequestRepository, EmployeeRequestRepository>();
             services.AddScoped<IEmployeeRequestService, EmployeeRequestService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IDbFactory, DbFactory>();
             services.AddControllers();
         }
 

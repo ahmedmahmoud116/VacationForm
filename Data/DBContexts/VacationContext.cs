@@ -10,6 +10,10 @@ namespace Data.DBContexts
         {
         }
 
+        public VacationContext(Func<object, object> p)
+        {
+        }
+
         public DbSet<Employee> Employees { get; set; }  //plural for conventions
         public DbSet<EmployeeBalance> EmployeeBalances { get; set; }
         public DbSet<EmployeeRequest> EmployeeRequests { get; set; }
@@ -18,14 +22,14 @@ namespace Data.DBContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             /**Validation**/
-            modelBuilder.Entity<Employee>(entity =>
-            {
-                entity.HasIndex(e => e.Email).IsUnique();
-            });
-            modelBuilder.Entity<Vacation>(entity =>
-            {
-                entity.HasIndex(e => e.Type).IsUnique();
-            });
+            //modelBuilder.Entity<Employee>(entity =>
+            //{
+            //    entity.HasIndex(e => e.Email).IsUnique();
+            //});
+            //modelBuilder.Entity<Vacation>(entity =>
+            //{
+            //    entity.HasIndex(e => e.Type).IsUnique();
+            //});
 
             //PostSeed for employee
             modelBuilder.Entity<Employee>().HasData(new Employee { ID = 4572, FullName = "Ahmed Mahmouud", Email = "ahmed@gmail.com"

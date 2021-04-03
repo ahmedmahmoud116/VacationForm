@@ -1,60 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Data.DBContexts;
 using Model.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.RepositoryInterface;
+using Data.Factory;
+using Data.DBContexts;
 
 namespace Repository.Repo
 {
     public class EmployeeBalanceRepository: IEmployeeBalanceRepository
     {
-        private VacationContext context;
-        private DbSet<EmployeeBalance> employeeBalanceEntity;
+        //private IDbFactory dbFactory;
+        private VacationContext _context;
+        private DbSet<EmployeeBalance> _employeeBalanceEntity;
 
         public EmployeeBalanceRepository(VacationContext context)
         {
-            this.context = context;
-            employeeBalanceEntity = context.Set<EmployeeBalance>();
+            //this.dbFactory = dbFactory;
+            this._context = context;
+            _employeeBalanceEntity = _context.Set<EmployeeBalance>();
         }
+        //public VacationContext context
+        //{
+        //    get { return _context == null ? dbFactory.init() : _context; }
+        //}
+
+        //public DbSet<EmployeeBalance> employeeBalanceEntity
+        //{
+        //    set { _employeeBalanceEntity = context.Set<EmployeeBalance>(); }
+        //}
+
         public void AddEmployeeBalance(EmployeeBalance employeeBalance)
         {
-            employeeBalanceEntity.Add(employeeBalance);
-            context.SaveChanges();
+            _employeeBalanceEntity.Add(employeeBalance);
+            _context.SaveChanges();
         }
 
         public EmployeeBalance DeleteEmployeeBalance(int id)
         {
             EmployeeBalance employeeBalance = GetEmployeeBalance(id);
-            employeeBalanceEntity.Remove(employeeBalance);
-            context.SaveChanges();
+            _employeeBalanceEntity.Remove(employeeBalance);
+            //context.SaveChanges();
             return employeeBalance;
         }
 
         public List<EmployeeBalance> GetAllEmployeeBalances()
         {
-            return employeeBalanceEntity.ToList();
+            return _employeeBalanceEntity.ToList();
         }
 
         public EmployeeBalance GetEmployeeBalance(int id)
         {
-            return employeeBalanceEntity.SingleOrDefault(e => e.ID == id);
+            return _employeeBalanceEntity.SingleOrDefault(e => e.ID == id);
         }
 
         public void UpdateEmployeeBalance(EmployeeBalance employeeBalance)
         {
-            employeeBalanceEntity.Update(employeeBalance);
-            context.SaveChanges();
+            _employeeBalanceEntity.Update(employeeBalance);
+            //context.SaveChanges();
         }
         public void StateEmployeeBalance(EmployeeBalance employeeBalance, EntityState state)
         {
-            context.Entry(employeeBalance).State = state;
+            _context.Entry(employeeBalance).State = state;
         }
         public void SaveEmployeeBalance()
         {
-            context.SaveChangesAsync();
+            _context.SaveChangesAsync();
         }
     }
 }

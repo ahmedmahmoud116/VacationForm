@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Data.DBContexts;
 using Model.Models;
+using Service.Services;
+using Service.Serv;
 
 namespace VacationForm.Controllers
 {
@@ -14,11 +16,12 @@ namespace VacationForm.Controllers
     [ApiController]
     public class EmployeeBalanceController : ControllerBase
     {
+        private readonly IEmployeeBalanceService _employeeBalanceService;
         private readonly VacationContext _context;
-
-        public EmployeeBalanceController(VacationContext context)
+        public EmployeeBalanceController(IEmployeeBalanceService employeeBalanceService, VacationContext context)
         {
-            _context = context;
+            this._employeeBalanceService = employeeBalanceService;
+            this._context = context;
         }
 
         // GET: api/EmployeeBalances
@@ -59,7 +62,8 @@ namespace VacationForm.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<EmployeeBalance>> GetEmployeeBalance(int id)
         {
-            var employeeBalance = await _context.EmployeeBalances.FindAsync(id);
+            //var employeeBalance = await _context.EmployeeBalances.FindAsync(id);
+            var employeeBalance = _employeeBalanceService.GetEmployeeBalance(id);
 
             if (employeeBalance == null)
             {
@@ -80,15 +84,17 @@ namespace VacationForm.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(employeeBalance).State = EntityState.Modified;
+            //_context.Entry(employeeBalance).State = EntityState.Modified;
+            _employeeBalanceService.StateEmployeeBalance(employeeBalance, EntityState.Modified);
 
             try
             {
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
+                _employeeBalanceService.SaveEmployeeBalance();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EmployeeBalanceExists(id))
+                if (!_employeeBalanceService.EmployeeBalanceExists(id))
                 {
                     return NotFound();
                 }
@@ -108,8 +114,11 @@ namespace VacationForm.Controllers
         public async Task<ActionResult<EmployeeBalance>> PostEmployeeBalance(EmployeeBalance employeeBalance)
         {
 
-            _context.EmployeeBalances.Add(employeeBalance);
-            await _context.SaveChangesAsync();
+            //_context.EmployeeBalances.Add(employeeBalance);
+            //await _context.SaveChangesAsync();
+            
+            _employeeBalanceService.AddEmployeeBalance(employeeBalance);
+            _employeeBalanceService.SaveEmployeeBalance();
 
             return CreatedAtAction("GetEmployeeBalance", new { id = employeeBalance.ID }, employeeBalance);
         }
@@ -118,21 +127,19 @@ namespace VacationForm.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<EmployeeBalance>> DeleteEmployeeBalance(int id)
         {
-            var employeeBalance = await _context.EmployeeBalances.FindAsync(id);
+            //var employeeBalance = await _context.EmployeeBalances.FindAsync(id);
+            var employeeBalance = _employeeBalanceService.DeleteEmployeeBalance(id);
+
             if (employeeBalance == null)
             {
                 return NotFound();
             }
 
-            _context.EmployeeBalances.Remove(employeeBalance);
-            await _context.SaveChangesAsync();
+            //_context.EmployeeBalances.Remove(employeeBalance);
+            //await _context.SaveChangesAsync();
+            _employeeBalanceService.SaveEmployeeBalance();
 
             return employeeBalance;
-        }
-
-        private bool EmployeeBalanceExists(int id)
-        {
-            return _context.EmployeeBalances.Any(e => e.ID == id);
         }
     }
 }

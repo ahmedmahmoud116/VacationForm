@@ -16,5 +16,7 @@ namespace Service.Services
         public void StateEmployee(Employee employee, EntityState state); //to return state of employee
         public void SaveEmployee(); //to save changes in the db
         public bool EmployeeExists(int id); //in service only
+        public bool EmployeeExists(string FullName);
+        Employee GetEmployee(string FullName); //get employee by name
     }
 }

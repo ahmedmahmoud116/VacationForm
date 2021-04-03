@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Data.DBContexts;
+
 using Model.Models;
 using Service.Services;
 using Service.Serv;
@@ -17,10 +17,12 @@ namespace VacationForm.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
+        private readonly IVacationService _vacationService;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService, IVacationService vacationService)
         {
             this._employeeService = employeeService;
+            this._vacationService = vacationService;
         }
 
         // GET: api/Employees
@@ -89,8 +91,17 @@ namespace VacationForm.Controllers
         {
             //_context.Employees.Add(employee);
             //await _context.SaveChangesAsync();
-            _employeeService.AddEmployee(employee);
+            if (_employeeService.EmployeeExists(employee.FullName)) 
+            {
+                var oldEmployee = _employeeService.GetEmployee(employee.FullName);
+                _employeeService.AddEmployee(employee);
+                var vacation = _vacationService.DeleteVacation(5);
+                _employeeService.SaveEmployee();
+                return CreatedAtAction(nameof(GetEmployee), new { id = employee.ID }, employee);
+            }
 
+            _employeeService.AddEmployee(employee);
+            _employeeService.SaveEmployee();
             //return CreatedAtAction("GetEmployee", new { id = employee.ID }, employee); 
             //The CreatedAtAction method: Returns an HTTP 201 status code if successful.
             //HTTP 201 is the standard response for an HTTP POST method that creates a new resource on the server.
@@ -112,6 +123,7 @@ namespace VacationForm.Controllers
 
             //_context.Employees.Remove(employee);
             //await _context.SaveChangesAsync();
+            _employeeService.SaveEmployee();
 
             return employee;
         }

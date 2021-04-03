@@ -2,50 +2,66 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Data.DBContexts;
 using Model.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.RepositoryInterface;
+using Data.Factory;
+using Data.DBContexts;
 
 namespace Repository.Repo
 {
     public class VacationRepository: IVacationRepository
     {
-        private VacationContext context;
-        private DbSet<Vacation> vacationEntity;
+        private IDbFactory dbFactory;
+        private VacationContext _context;
+        //private DbSet<Vacation> _vacationEntity;
 
-        public VacationRepository(VacationContext context)
+        public VacationRepository(IDbFactory dbFactory)
         {
-            this.context = context;
-            vacationEntity = context.Set<Vacation>();
+            this.dbFactory = dbFactory;
+            this._context = dbFactory.init();
+            //this._vacationEntity = _context.Set<Vacation>();
+           // _context = dbFactory.init();
+            //vacationEntity = dbFactory.init().Set<Vacation>();
         }
+        public VacationContext context
+        {
+            get { return _context == null ? dbFactory.init() : _context; }
+        }
+
+        //public DbSet<Vacation> vacationEntity
+        //{
+        //    set { _vacationEntity = context.Set<Vacation>(); }
+        //}
+
+
         public void AddVacation(Vacation vacation)
         {
-            vacationEntity.Add(vacation);
-            context.SaveChanges();
+            context.Add(vacation);
+            //context.SaveChanges();
         }
 
         public Vacation DeleteVacation(int id)
         {
             Vacation vacation = GetVacation(id);
-            vacationEntity.Remove(vacation);
-            context.SaveChanges();
+            context.Remove(vacation);
+            //context.SaveChanges();
             return vacation;
         }
         public List<Vacation> GetAllVacations()
         {
-            return vacationEntity.ToList();
+            return context.Vacations.ToList();
         }
 
         public Vacation GetVacation(int id)
         {
-            return vacationEntity.SingleOrDefault(e => e.ID == id);
+            return context.Vacations.SingleOrDefault(e => e.ID == id);
         }
 
         public void UpdateVacation(Vacation vacation)
         {
-            vacationEntity.Update(vacation);
-            context.SaveChanges();
+            context.Update(vacation);
+            //context.SaveChanges();
         }
         public void StateVacation(Vacation vacation, EntityState state)
         {
