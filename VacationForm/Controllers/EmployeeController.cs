@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -56,26 +57,26 @@ namespace VacationForm.Controllers
             }
 
             //_context.Entry(employee).State = EntityState.Modified;
-            _employeeService.StateEmployee(employee, EntityState.Modified);
-
+            //_employeeService.StateEmployee(employee, EntityState.Modified);
             try
             {
-                //await _context.SaveChangesAsync();
+                Employee emp = new Employee();
+                emp = _employeeService.GetEmployee(id);
+                if (emp != null)
+                {
+                    emp.FullName = employee.FullName;
+                    emp.Email = employee.Email;
+                    emp.BirthDate = employee.BirthDate;
+                    emp.Gender = employee.Gender;
+
+                }
                 _employeeService.SaveEmployee();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception)
             {
-                if (!_employeeService.EmployeeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
-
-            return NoContent();
+            return Ok(employee);
         }
 
         // POST: api/Employees

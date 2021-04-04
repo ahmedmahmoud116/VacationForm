@@ -52,7 +52,7 @@ namespace VacationForm
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             /**to link cors with angular**/
-            app.UseCors(options => options.WithOrigins("https://localhost:4200")
+            app.UseCors(options => options.WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
             .AllowAnyHeader());
 
