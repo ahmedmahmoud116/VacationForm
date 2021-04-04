@@ -44,11 +44,18 @@ namespace VacationForm
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IDbFactory, DbFactory>();
             services.AddControllers();
+
+            services.AddCors(); /**to link cors with angular**/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            /**to link cors with angular**/
+            app.UseCors(options => options.WithOrigins("https://localhost:4200")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
