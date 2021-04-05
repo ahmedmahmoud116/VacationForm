@@ -18,7 +18,6 @@ namespace UnitOfWorks.Classes
         }
 
         public IDbFactory DbFactory { get; }
-        //public VacationContext context { get; }
 
         public VacationContext context
         {

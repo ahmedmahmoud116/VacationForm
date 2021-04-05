@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model.Models;
 using Service.Services;
+using System;
 
 namespace VacationForm.Controllers
 {
@@ -53,27 +54,24 @@ namespace VacationForm.Controllers
                 return BadRequest();
             }
 
-            //_context.Entry(employeeRequest).State = EntityState.Modified;
-            _employeeRequestService.StateEmployeeRequest(employeeRequest, EntityState.Modified);
-
+            //_employeeRequestService.StateEmployeeRequest(employeeRequest, EntityState.Modified);
             try
             {
-                //await _context.SaveChangesAsync();
+                EmployeeRequest er = new EmployeeRequest();
+                er = _employeeRequestService.GetEmployeeRequest(id);
+                if (er != null)
+                {
+                    er.EmployeeID = employeeRequest.EmployeeID;
+                    er.VacationID = employeeRequest.VacationID;
+                    er.Days = employeeRequest.Days;
+                }
                 _employeeRequestService.SaveEmployeeRequest();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception)
             {
-                if (!_employeeRequestService.EmployeeRequestExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
-
-            return NoContent();
+            return Ok(employeeRequest);
         }
 
         // POST: api/EmployeeRequests
