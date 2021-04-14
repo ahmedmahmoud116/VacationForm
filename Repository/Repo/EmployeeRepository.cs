@@ -50,6 +50,11 @@ namespace Repository.Repo
             return context.Employees.SingleOrDefault(e => e.ID == id);
         }
 
+        public Employee GetEmployee(string FullName)
+        {
+            return context.Employees.SingleOrDefault(e => e.FullName.Equals(FullName));
+        }
+
         public void UpdateEmployee(Employee employee)
         {
             context.Update(employee);
@@ -64,9 +69,6 @@ namespace Repository.Repo
         {
             context.SaveChangesAsync();
         }
-        public Employee GetEmployee(string FullName)
-        {
-            return context.Employees.SingleOrDefault(e => e.FullName.Equals(FullName));
-        }
+
     }
 }

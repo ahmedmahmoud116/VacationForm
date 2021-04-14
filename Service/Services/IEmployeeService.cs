@@ -11,12 +11,12 @@ namespace Service.Services
         void AddEmployee(Employee employee); //to add employee
         List<Employee> GetAllEmployees();
         Employee GetEmployee(int id);
+        Employee GetEmployee(string name);
         Employee DeleteEmployee(int id);
         void UpdateEmployee(Employee employee); //to edit employee
         public void StateEmployee(Employee employee, EntityState state); //to return state of employee
         public void SaveEmployee(); //to save changes in the db
         public bool EmployeeExists(int id); //in service only
         public bool EmployeeExists(string FullName);
-        Employee GetEmployee(string FullName); //get employee by name
     }
 }

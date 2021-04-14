@@ -48,18 +48,20 @@ namespace Repository.Repo
                                                             equals new { er.EmployeeID, er.VacationID } into group3
                         from g3 in group3.DefaultIfEmpty()
                         orderby e.FullName
-                        select new VacationView { FullName = e.FullName, Type = g2.Type, Balance = eb.Balance, Used = g3.Days };
+                        select new VacationView {employeeID = e.ID, FullName = e.FullName, vacationID= g2.ID, Type = g2.Type, Balance = eb.Balance, Used = g3.Days };
 
             List<VacationView> employeevacations = query.ToList();
             employeevacations = employeevacations.GroupBy(v => new
             {
-                v.Type,
-                v.FullName
+                v.employeeID,
+                v.vacationID
             })
                 .Select(g => new VacationView()
                 {
-                    Type = g.Key.Type,
-                    FullName = g.Key.FullName,
+                    vacationID = g.Key.vacationID,
+                    employeeID = g.Key.employeeID,
+                    Type = g.FirstOrDefault().Type,
+                    FullName = g.FirstOrDefault().FullName,
                     Balance = g.FirstOrDefault().Balance,
                     Used = g.Sum(u => u.Used)
                 }).ToList();

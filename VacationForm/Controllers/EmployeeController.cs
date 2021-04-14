@@ -44,7 +44,7 @@ namespace VacationForm.Controllers
 
             return employee;
         }
-
+        
         // PUT: api/Employees/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -85,16 +85,14 @@ namespace VacationForm.Controllers
         [HttpPost]
         public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
         {
-            //_context.Employees.Add(employee);
-            //await _context.SaveChangesAsync();
-            if (_employeeService.EmployeeExists(employee.FullName)) 
-            {
-                var oldEmployee = _employeeService.GetEmployee(employee.FullName);
-                _employeeService.AddEmployee(employee);
-                var vacation = _vacationService.DeleteVacation(5);
-                _employeeService.SaveEmployee();
-                return CreatedAtAction(nameof(GetEmployee), new { id = employee.ID }, employee);
-            }
+            //if (_employeeservice.employeeexists(employee.fullname)) 
+            //{
+            //    var oldemployee = _employeeservice.getemployee(employee.fullname);
+            //    _employeeservice.addemployee(employee);
+            //    var vacation = _vacationservice.deletevacation(5);
+            //    _employeeservice.saveemployee();
+            //    return createdataction(nameof(getemployee), new { id = employee.id }, employee);
+            //}
 
             _employeeService.AddEmployee(employee);
             _employeeService.SaveEmployee();

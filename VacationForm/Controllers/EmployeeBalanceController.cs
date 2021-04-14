@@ -80,10 +80,6 @@ namespace VacationForm.Controllers
         [HttpPost]
         public async Task<ActionResult<EmployeeBalance>> PostEmployeeBalance(EmployeeBalance employeeBalance)
         {
-
-            //_context.EmployeeBalances.Add(employeeBalance);
-            //await _context.SaveChangesAsync();
-            
             _employeeBalanceService.AddEmployeeBalance(employeeBalance);
             _employeeBalanceService.SaveEmployeeBalance();
 

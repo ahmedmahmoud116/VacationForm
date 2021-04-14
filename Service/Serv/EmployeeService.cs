@@ -37,6 +37,10 @@ namespace Service.Serv
         {
             return employeeRepository.GetEmployee(id);
         }
+        public Employee GetEmployee(string name)
+        {
+            return employeeRepository.GetEmployee(name);
+        }
 
         public void UpdateEmployee(Employee employee)
         {
@@ -61,10 +65,6 @@ namespace Service.Serv
         public bool EmployeeExists(string FullName)
         {
             return employeeRepository.GetEmployee(FullName) == null ? false : true;
-        }
-        public Employee GetEmployee(string FullName)
-        {
-            return employeeRepository.GetEmployee(FullName);
         }
     }
 }
