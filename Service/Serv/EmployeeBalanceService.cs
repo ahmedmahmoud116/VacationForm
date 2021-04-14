@@ -45,6 +45,12 @@ namespace Service.Serv
         {
             _employeeBalanceRepo.UpdateEmployeeBalance(employeeBalance);
         }
+
+        public void UpdateEmployeeBalances(VacationView[] vacationViewArrays)
+        {
+            _employeeBalanceRepo.UpdateEmployeeBalances(vacationViewArrays);
+        }
+
         public void StateEmployeeBalance(EmployeeBalance employeeBalance, EntityState state)
         {
             _employeeBalanceRepo.StateEmployeeBalance(employeeBalance, state);

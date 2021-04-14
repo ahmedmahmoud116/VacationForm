@@ -48,7 +48,7 @@ namespace Repository.Repo
                                                             equals new { er.EmployeeID, er.VacationID } into group3
                         from g3 in group3.DefaultIfEmpty()
                         orderby e.FullName
-                        select new VacationView {employeeID = e.ID, FullName = e.FullName, vacationID= g2.ID, Type = g2.Type, Balance = eb.Balance, Used = g3.Days };
+                        select new VacationView {ID = eb.ID, employeeID = e.ID, FullName = e.FullName, vacationID= g2.ID, Type = g2.Type, Balance = eb.Balance, Used = g3.Days };
 
             List<VacationView> employeevacations = query.ToList();
             employeevacations = employeevacations.GroupBy(v => new
@@ -58,6 +58,7 @@ namespace Repository.Repo
             })
                 .Select(g => new VacationView()
                 {
+                    ID = g.FirstOrDefault().ID,
                     vacationID = g.Key.vacationID,
                     employeeID = g.Key.employeeID,
                     Type = g.FirstOrDefault().Type,
@@ -87,6 +88,21 @@ namespace Repository.Repo
         public void SaveEmployeeBalance()
         {
             context.SaveChangesAsync();
+        }
+        
+        public void UpdateEmployeeBalances(VacationView[] vacationViewArrays) 
+        { 
+            foreach(VacationView vacationView in vacationViewArrays){
+                EmployeeBalance eb = new EmployeeBalance();
+                eb = context.EmployeeBalances.SingleOrDefault(e => e.ID == vacationView.ID);
+                if (eb != null)
+                {
+                    //eb.EmployeeID = vacationView.employeeID;
+                    //eb.VacationID = vacationView.vacationID;
+                    eb.Balance = vacationView.Balance;
+                }
+                //context.Update(vacationView);
+            }
         }
     }
 }

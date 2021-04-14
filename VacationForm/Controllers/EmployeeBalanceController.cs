@@ -74,6 +74,21 @@ namespace VacationForm.Controllers
             return Ok(employeeBalance);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> PutEmployeeBalances(VacationView[] vacationViewArray)
+        {
+            try
+            {
+                _employeeBalanceService.UpdateEmployeeBalances(vacationViewArray);
+                _employeeBalanceService.SaveEmployeeBalance();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return Ok(vacationViewArray);
+        }
+
         // POST: api/EmployeeBalances
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
