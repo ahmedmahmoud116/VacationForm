@@ -10,7 +10,7 @@ namespace Service.Services
     public interface IEmployeeRequestService
     {
         void AddEmployeeRequest(EmployeeRequest employeeRequest); //to add EmployeeRequest
-        List<EmployeeRequest> GetAllEmployeeRequests();
+        List<VacationRequestView> GetAllEmployeeRequests();
         EmployeeRequest GetEmployeeRequest(int id);
         EmployeeRequest DeleteEmployeeRequest(int id);
         void UpdateEmployeeRequest(EmployeeRequest employeeRequest); //to edit EmployeeRequest

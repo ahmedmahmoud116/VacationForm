@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
+
 namespace Model.Models
 {
-    public class VacationView 
+    public class VacationRequestView
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
@@ -11,7 +12,6 @@ namespace Model.Models
         public String FullName { get; set; }
         public int vacationID { get; set; }
         public String Type { get; set; }
-        public int Balance { get; set; }
-        public int Used { get; set; }
+        public int Days { get; set; }
     }
 }

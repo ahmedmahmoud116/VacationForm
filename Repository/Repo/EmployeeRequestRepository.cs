@@ -40,9 +40,33 @@ namespace Repository.Repo
             return employeeRequest;
         }
 
-        public List<EmployeeRequest> GetAllEmployeeRequests()
+        public List<VacationRequestView> GetAllEmployeeRequests()
         {
-            return context.EmployeeRequests.ToList();
+            var query = from e in context.Employees
+                        join er in context.EmployeeRequests on e.ID equals er.EmployeeID
+                        join v in context.Vacations on er.VacationID equals v.ID into group1
+                        from g1 in group1.DefaultIfEmpty()
+                        select new VacationRequestView { ID = er.ID, employeeID = e.ID, FullName = e.FullName, vacationID = g1.ID, Type = g1.Type, Days = er.Days};
+
+            List<VacationRequestView> employeevacations = query.ToList();
+            //employeevacations = employeevacations.GroupBy(v => new
+            //{
+            //    v.employeeID,
+            //    v.vacationID
+            //})
+            //    .Select(g => new VacationView()
+            //    {
+            //        ID = g.FirstOrDefault().ID,
+            //        vacationID = g.Key.vacationID,
+            //        employeeID = g.Key.employeeID,
+            //        Type = g.FirstOrDefault().Type,
+            //        FullName = g.FirstOrDefault().FullName,
+            //        Balance = g.FirstOrDefault().Balance,
+            //        Used = g.Sum(u => u.Used)
+            //    }).ToList();
+
+            return employeevacations;
+            //return context.EmployeeRequests.ToList();
         }
 
         public EmployeeRequest GetEmployeeRequest(int id)

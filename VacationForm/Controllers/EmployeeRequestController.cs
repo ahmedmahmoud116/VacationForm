@@ -24,7 +24,7 @@ namespace VacationForm.Controllers
         public async Task<ActionResult<IEnumerable<EmployeeRequest>>> GetEmployeeRequests()
         {
             //return await _context.EmployeeRequests.ToListAsync();
-            List<EmployeeRequest> list = _employeeRequestService.GetAllEmployeeRequests();
+            List<VacationRequestView> list = _employeeRequestService.GetAllEmployeeRequests();
             return Ok(list);
         }
 

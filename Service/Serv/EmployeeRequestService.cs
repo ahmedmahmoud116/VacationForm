@@ -25,7 +25,7 @@ namespace Service.Serv
             return _employeeRequestRepo.DeleteEmployeeRequest(id);
         }
 
-        public List<EmployeeRequest> GetAllEmployeeRequests()
+        public List<VacationRequestView> GetAllEmployeeRequests()
         {
             return _employeeRequestRepo.GetAllEmployeeRequests();
         }
