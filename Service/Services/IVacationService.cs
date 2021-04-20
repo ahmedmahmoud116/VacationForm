@@ -16,5 +16,9 @@ namespace Service.Services
         public void StateVacation(Vacation vacation, EntityState state); //to return state of Vacation
         public void SaveVacation(); //to save changes in the db
         public bool VacationExists(int id); //in service only
+
+        public bool VacationValidationPost(Vacation vacation);//to validate post validations
+
+        public bool VacationValidationEdit(Vacation vacation);//to validate edit validations
     }
 }

@@ -59,12 +59,16 @@ namespace VacationForm.Controllers
             {
                 EmployeeRequest er = new EmployeeRequest();
                 er = _employeeRequestService.GetEmployeeRequest(id);
+                int currval = er.Days;
                 if (er != null)
                 {
                     er.EmployeeID = employeeRequest.EmployeeID;
                     er.VacationID = employeeRequest.VacationID;
                     er.Days = employeeRequest.Days;
                 }
+                if (_employeeRequestService.employeeRequestValidationEdit(employeeRequest, currval))
+                    return BadRequest();
+
                 _employeeRequestService.SaveEmployeeRequest();
             }
             catch (Exception)
@@ -80,8 +84,9 @@ namespace VacationForm.Controllers
         [HttpPost]
         public async Task<ActionResult<EmployeeRequest>> PostEmployeeRequest(EmployeeRequest employeeRequest)
         {
-            //_context.EmployeeRequests.Add(employeeRequest);
-            //await _context.SaveChangesAsync();
+            if (_employeeRequestService.employeeRequestValidationPost(employeeRequest))
+                return BadRequest();
+
             _employeeRequestService.AddEmployeeRequest(employeeRequest);
             _employeeRequestService.SaveEmployeeRequest();
 

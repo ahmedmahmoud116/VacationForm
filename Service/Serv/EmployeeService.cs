@@ -11,16 +11,20 @@ namespace Service.Serv
     {
         private IEmployeeRepository employeeRepository;
         private readonly IUnitOfWork unitOfWork;
+        private IVacationRepository vacationRepository;
 
-        public EmployeeService(IUnitOfWork unitOfWork, IEmployeeRepository employeeRepository)
+        public EmployeeService(IUnitOfWork unitOfWork, IEmployeeRepository employeeRepository, IVacationRepository vacationRepository)
         {
             this.unitOfWork = unitOfWork;
             this.employeeRepository = employeeRepository;
+            this.vacationRepository = vacationRepository;
         }
 
         public void AddEmployee(Employee employee)
         {
             employeeRepository.AddEmployee(employee);
+
+            List<Vacation> vacations = vacationRepository.GetAllVacations();
         }
 
         public Employee DeleteEmployee(int id)

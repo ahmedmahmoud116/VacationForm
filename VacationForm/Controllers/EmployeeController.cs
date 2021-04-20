@@ -56,7 +56,6 @@ namespace VacationForm.Controllers
                 return BadRequest();
             }
 
-            //_context.Entry(employee).State = EntityState.Modified;
             //_employeeService.StateEmployee(employee, EntityState.Modified);
             try
             {
@@ -93,6 +92,10 @@ namespace VacationForm.Controllers
             //    _employeeservice.saveemployee();
             //    return createdataction(nameof(getemployee), new { id = employee.id }, employee);
             //}
+
+            /**email valiation is already handled in model**/
+            if (_employeeService.EmployeeExists(employee.FullName))
+                return BadRequest();
 
             _employeeService.AddEmployee(employee);
             _employeeService.SaveEmployee();

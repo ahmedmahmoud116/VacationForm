@@ -17,5 +17,7 @@ namespace Service.Services
         public void StateEmployeeRequest(EmployeeRequest employeeRequest, EntityState state); //to return state of employee
         public void SaveEmployeeRequest(); //to save changes in the db
         public bool EmployeeRequestExists(int id); //in service only
+        public bool employeeRequestValidationPost(EmployeeRequest employeeRequest); //to validate post request
+        public bool employeeRequestValidationEdit(EmployeeRequest employeeRequest, int currval); //to validate edit request
     }
 }

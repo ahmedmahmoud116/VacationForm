@@ -4,6 +4,7 @@ using Repository.RepositoryInterface;
 using Model.Models;
 using Microsoft.EntityFrameworkCore;
 using UnitOfWorks.Interfaces;
+using System.Text.RegularExpressions;
 
 namespace Service.Serv
 {
@@ -53,6 +54,30 @@ namespace Service.Serv
         public bool VacationExists(int id)
         {
             return _vacationRepo.GetVacation(id) == null ? false : true;
+        }
+        
+        public bool VacationValidationPost(Vacation vacation)
+        {
+            return positiveValidator(vacation.Balance) || vacation.Balance > 200; //to limit balance to 200 || vacationExist(vacation.Type)
+        }
+
+        public bool VacationValidationEdit(Vacation vacation)
+        {
+            return positiveValidator(vacation.Balance) || vacation.Balance > 200; //to limit balance to 200
+        }
+
+        private bool positiveValidator(int number)
+        {
+            Regex regex = new Regex(@"^[1-9]+[0-9]*$");
+            Match match = regex.Match(number.ToString());
+            return !match.Success;
+        }
+
+        private bool vacationExist(string vacationType)
+        {
+            List<Vacation> vacations = _vacationRepo.GetAllVacations();
+            var vac = vacations.Find(v => v.Type == vacationType);
+            return vac != null;
         }
     }
 }

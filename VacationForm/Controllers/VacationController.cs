@@ -64,6 +64,9 @@ namespace VacationForm.Controllers
                     vac.Type = vacation.Type;
                     vac.Balance = vacation.Balance;
                 }
+                if (_vacationService.VacationValidationEdit(vac))
+                    return BadRequest();
+
                 _vacationService.SaveVacation();
             }
             catch (Exception)
@@ -79,8 +82,10 @@ namespace VacationForm.Controllers
         [HttpPost]
         public async Task<ActionResult<Vacation>> PostVacation(Vacation vacation)
         {
-            //_context.Vacations.Add(vacation);
-            //await _context.SaveChangesAsync();
+            /**to validate if balance is positive**/
+            if (_vacationService.VacationValidationPost(vacation))
+                return BadRequest();
+
             _vacationService.AddVacation(vacation);
             _vacationService.SaveVacation();
 

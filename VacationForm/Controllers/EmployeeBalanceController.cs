@@ -65,6 +65,10 @@ namespace VacationForm.Controllers
                     eb.VacationID = employeeBalance.VacationID;
                     eb.Balance = employeeBalance.Balance;
                 }
+                /**to validate the input of put**/
+                if (_employeeBalanceService.EmployeebalanceValidationEdit(eb))
+                    return BadRequest();
+
                 _employeeBalanceService.SaveEmployeeBalance();
             }
             catch (Exception)
@@ -95,6 +99,10 @@ namespace VacationForm.Controllers
         [HttpPost]
         public async Task<ActionResult<EmployeeBalance>> PostEmployeeBalance(EmployeeBalance employeeBalance)
         {
+            /**to validate employeebalance**/
+            if (_employeeBalanceService.EmployeebalanceValidationPost(employeeBalance))
+                return BadRequest();
+
             _employeeBalanceService.AddEmployeeBalance(employeeBalance);
             _employeeBalanceService.SaveEmployeeBalance();
 
