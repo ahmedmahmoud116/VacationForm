@@ -4,6 +4,7 @@ namespace Model.Models
 {
     public class EmployeeBalance
     {
+        public EmployeeBalance() { }
         public int ID { get; set; }
         [Required]
         public int EmployeeID { get; set; }

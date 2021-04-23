@@ -28,11 +28,11 @@ namespace VacationForm
         public void ConfigureServices(IServiceCollection services)
         {
             string mySqlConnectionStr = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContextPool<VacationContext>(options => options.UseMySql(mySqlConnectionStr));
+            services.AddDbContext<VacationContext>(options => options.UseMySql(mySqlConnectionStr));
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
-            services.AddTransient<VacationContext>();
+            services.AddScoped<VacationContext>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IEmployeeService, EmployeeService>(); //when you ran up into IEmployeeService create EmployeeService
             services.AddScoped<IVacationRepository, VacationRepository>();

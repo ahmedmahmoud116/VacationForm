@@ -95,15 +95,13 @@ namespace VacationForm.Controllers
 
             /**email valiation is already handled in model**/
             if (_employeeService.EmployeeExists(employee.FullName))
+            {
                 return BadRequest();
+            }
 
             _employeeService.AddEmployee(employee);
             _employeeService.SaveEmployee();
-            //return CreatedAtAction("GetEmployee", new { id = employee.ID }, employee); 
-            //The CreatedAtAction method: Returns an HTTP 201 status code if successful.
-            //HTTP 201 is the standard response for an HTTP POST method that creates a new resource on the server.
-            //reference GetEmployee action to create the location url
-            //the C# nameof keyword is used to avoid hard-coding the action name in the CreatedAtAction call
+
             return CreatedAtAction(nameof(GetEmployee), new { id = employee.ID }, employee); //reference GetEmployee action to create 
         }
 

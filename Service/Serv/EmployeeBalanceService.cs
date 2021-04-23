@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Service.Services;
 using Repository.RepositoryInterface;
 using Model.Models;

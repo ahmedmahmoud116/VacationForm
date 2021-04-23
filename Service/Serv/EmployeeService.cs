@@ -4,6 +4,7 @@ using Repository.RepositoryInterface;
 using Model.Models;
 using Microsoft.EntityFrameworkCore;
 using UnitOfWorks.Interfaces;
+using System;
 
 namespace Service.Serv
 {
@@ -12,20 +13,34 @@ namespace Service.Serv
         private IEmployeeRepository employeeRepository;
         private readonly IUnitOfWork unitOfWork;
         private IVacationRepository vacationRepository;
+        private IEmployeeBalanceRepository employeeBalanceRepository;
 
-        public EmployeeService(IUnitOfWork unitOfWork, IEmployeeRepository employeeRepository, IVacationRepository vacationRepository)
+        public EmployeeService(IUnitOfWork unitOfWork, 
+                               IEmployeeRepository employeeRepository, 
+                               IVacationRepository vacationRepository,
+                               IEmployeeBalanceRepository employeeBalanceRepository)
         {
             this.unitOfWork = unitOfWork;
             this.employeeRepository = employeeRepository;
             this.vacationRepository = vacationRepository;
+            this.employeeBalanceRepository = employeeBalanceRepository;
         }
 
         public void AddEmployee(Employee employee)
         {
             employeeRepository.AddEmployee(employee);
 
-            List<Vacation> vacations = vacationRepository.GetAllVacations();
-        }
+            List<Vacation> vacations = vacationRepository.GetAllVacations(); //get vacation list of all our vacation
+
+            foreach (Vacation vacation in vacations)//loop in each one of them and add employee to each vacation with its default value
+            { 
+                EmployeeBalance employeeBalance = new EmployeeBalance();
+                employeeBalance.Employee = employee;
+                employeeBalance.Vacation = vacation;
+                employeeBalance.Balance = vacation.Balance;
+                employeeBalanceRepository.AddEmployeeBalance(employeeBalance);
+            }
+    }
 
         public Employee DeleteEmployee(int id)
         {
