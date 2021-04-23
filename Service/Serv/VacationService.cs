@@ -12,15 +12,35 @@ namespace Service.Serv
     {
         private readonly IVacationRepository _vacationRepo;
         private readonly IUnitOfWork _unitOfWork;
-        public VacationService(IUnitOfWork unitOfWork, IVacationRepository vacationRepository)
+        private readonly IEmployeeRepository _employeeRepo;
+        private readonly IEmployeeBalanceRepository _employeeBalanceRepo;
+
+        public VacationService(IUnitOfWork unitOfWork, 
+                               IVacationRepository vacationRepository,
+                               IEmployeeRepository employeeRepository,
+                               IEmployeeBalanceRepository employeeBalanceRepository)
         {
             this._unitOfWork = unitOfWork;
             this._vacationRepo = vacationRepository;
+            this._employeeRepo = employeeRepository;
+            this._employeeBalanceRepo = employeeBalanceRepository;
         }
 
         public void AddVacation(Vacation vacation)
         {
             _vacationRepo.AddVacation(vacation);
+
+            List<Employee> employees = _employeeRepo.GetAllEmployees();
+            foreach(Employee employee in employees)
+            {
+                EmployeeBalance employeeBalance = new EmployeeBalance
+                {
+                    Employee = employee,
+                    Vacation = vacation,
+                    Balance = vacation.Balance
+                };
+                _employeeBalanceRepo.AddEmployeeBalance(employeeBalance);
+            }
         }
 
         public Vacation DeleteVacation(int id)
